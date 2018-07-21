@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestMotherServices\TestProgressServices.cs" />
     <Compile Include="TestMotherServices\TestTaskServices.cs" />
     <Compile Include="TestMotherServices\TestUserServices.cs" />
     <Compile Include="UnitTestApp.xaml.cs">

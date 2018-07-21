@@ -34,31 +34,22 @@ namespace LovelyMother
         private async void Button1_OnClick(object sender, RoutedEventArgs e)
 
         {
-            
-
-            User newUser = new User { UserName = SignupUser.Text, Password = SignupPassword.Text, TotalTime = 0 };
 
             MotherService motherService = new MotherService();
 
-            var result = await motherService.NewUserAsync(newUser);
+            var result = await motherService.NewUserAsync(SignupUser.Text, SignupPassword.Text);
 
             if (result == true)
 
             {
-
                 SignupUser.Text = "创建成功！";
-
             }
 
             else
 
             {
-
                 SignupUser.Text = "创建失败！";
-
             }
-
-
 
         }
 

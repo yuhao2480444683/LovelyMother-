@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MotherLibrary;
@@ -33,22 +31,34 @@ namespace LovelyMother.Services
         }
 
         //TODO     Need Test
-        public async Task<List<MotherLibrary.Task>> ListTaskAsync(User User)
+        public async Task<List<MotherLibrary.Task>> ListTaskAsync( String userName)
         {
             using (var db = new MyDatabaseContext())
             {
-                var tasks = await db.Tasks.ToListAsync();
-                var count = tasks.Count;
-
-                foreach (MotherLibrary.Task task in tasks)
+                var currentUser = await db.Users.SingleOrDefaultAsync(m => m.UserName == userName);
+                if (currentUser != null)
                 {
-                    if (task.UserId != User.Id)
+                    var tasks = await db.Tasks.ToListAsync();
+
+                    var count = tasks.Count;
+
+                    foreach (MotherLibrary.Task task in tasks)
                     {
-                        tasks.Remove(task);
+                        if (task.UserId != currentUser.Id)
+                        {
+                            tasks.Remove(task);
+                        }
                     }
+
+                    return tasks;
+
                 }
-                
-                return tasks;
+                else
+                {
+                    return null;
+                }
+
+       
 
             }
         }
@@ -64,20 +74,21 @@ namespace LovelyMother.Services
 
 
 
+
         /// <summary>
         /// 新建项。
         /// </summary>
         /// <param name="User"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task<bool> NewUserAsync(User User)
+        public async Task<bool> NewUserAsync(String username,String password)
         {
             using (var db = new MyDatabaseContext())
             {
-                var Announcement = await db.Users.SingleOrDefaultAsync(m => m.UserName == User.UserName);
+                var Announcement = await db.Users.SingleOrDefaultAsync(m => m.UserName == username);
                 if (Announcement == null)
                 {
 
-                    var user1 = new User { UserName = User.UserName, Password = User.Password, TotalTime = 0 };
+                    var user1 = new User { UserName = username, Password = password, TotalTime = 0 };
                     db.Users.Add(user1);
                     await db.SaveChangesAsync();
                     return true;
@@ -92,27 +103,27 @@ namespace LovelyMother.Services
 
         }
 
-        public async System.Threading.Tasks.Task<bool> NewTaskAsync(MotherLibrary.Task Task,User User)
+        public async Task<bool> NewTaskAsync(String username,int date,String begin,int defaulttime,String introduction)
         {
             using (var db = new MyDatabaseContext())
             {
                 //
-                var currentUser = await db.Users.FirstOrDefaultAsync(m => m.Id == User.Id);
+                var currentUser = await db.Users.FirstOrDefaultAsync(m => m.UserName == username);
                 if (currentUser != null)
                 {
                     
-                    var Announcement = await db.Tasks.FirstOrDefaultAsync(m =>m.Date == Task.Date && m.Begin == Task.Begin && m.UserId == User.Id);
+                    var Announcement = await db.Tasks.FirstOrDefaultAsync(m =>m.Date == date && m.Begin == begin && m.UserId == currentUser.Id);
                     if (Announcement == null)
                     {
                         var task = new MotherLibrary.Task
                         {
-                            Date = Task.Date,
+                            Date = date,
                             UserId = currentUser.Id,
-                            Begin = Task.Begin,
+                            Begin = begin,
                            // End = Task.End,
                             TotalTime = 0,
-                            DefaultTime = Task.DefaultTime,
-                            Introduction = Task.Introduction,
+                            DefaultTime = defaulttime,
+                            Introduction = introduction,
                             Finish = -1
                         };
                         db.Tasks.Add(task);
@@ -132,15 +143,15 @@ namespace LovelyMother.Services
             }
         }
 
-        public async System.Threading.Tasks.Task<bool> NewProgressAsync(Progress Progress)
+        public async Task<bool> NewProgressAsync(String progressName,String defaultName)
         {
             using (var db = new MyDatabaseContext())
             {
-                var Announcement = await db.Progresses.SingleOrDefaultAsync(m => m.ProgressName == Progress.ProgressName);
+                var Announcement = await db.Progresses.SingleOrDefaultAsync(m => m.ProgressName == progressName);
                 if (Announcement == null)
                 {
 
-                    var progress = new Progress { ProgressName = Progress.ProgressName,DefaultName = Progress.DefaultName};
+                    var progress = new Progress { ProgressName = progressName,DefaultName = defaultName};
                     db.Progresses.Add(progress);
                     await db.SaveChangesAsync();
                     return true;
@@ -159,20 +170,20 @@ namespace LovelyMother.Services
 
 
         /// <summary>
-        /// 修改项。
+        /// 修改项。只能修改DefaultName
         /// </summary>
         /// <returns></returns>
         //TODO  单元测试不通过，可能是类不能直接 = 
-        public async Task<bool> UpdateUserAsync(User User)
+        public async Task<bool> UpdateUserAsync(String userName,String passWord,int totalTime)               
         {
             using (var db = new MyDatabaseContext())
             {
-                var Announcement = await db.Users.FirstOrDefaultAsync(m => m.Id == User.Id);
-                if (Announcement != null)
+                var user = await db.Users.FirstOrDefaultAsync(m => m.UserName == userName);
+                if (user != null)
                 {
-                    Announcement.UserName = User.UserName;
-                    Announcement.Password = User.Password;
-                    Announcement.TotalTime = User.TotalTime;
+                    user.UserName  = userName;
+                    user.Password  = passWord;
+                    user.TotalTime = totalTime;
 
                     await db.SaveChangesAsync();
                     return true;
@@ -186,22 +197,22 @@ namespace LovelyMother.Services
             }
         }
 
-        public async Task<bool> UpdateTaskAsync(MotherLibrary.Task Task,User User)
+        public async Task<bool> UpdateTaskAsync(String userName,int date,String begin,String end,int defaultTime,int finish,int totalTime,String introduction)
         {
             using (var db = new MyDatabaseContext())
             {
-                var CurrentUser = await db.Users.FirstOrDefaultAsync(m => m.Id == User.Id);
-                if (CurrentUser != null)
+                var currentUser = await db.Users.FirstOrDefaultAsync(m => m.UserName == userName);
+                if (currentUser != null)
                 {
 
-                    var Announcement = await db.Tasks.SingleOrDefaultAsync(m => m.Id == Task.Id && m.UserId == User.Id);
-                    if (Announcement != null)
+                    var task = await db.Tasks.SingleOrDefaultAsync(m => m.Date ==date && m.Begin == begin && m.UserId == currentUser.Id);
+                    if (task != null)
                     {
-                        Announcement.DefaultTime = Task.DefaultTime;
-                        Announcement.End = Task.End;
-                        Announcement.Finish = Task.Finish;
-                        Announcement.Introduction = Task.Introduction;
-                        Announcement.TotalTime = Task.TotalTime;
+                        task.DefaultTime = defaultTime;
+                        task.End = end;
+                        task.Finish = finish;
+                        task.Introduction = introduction;
+                        task.TotalTime = totalTime;
 
                         await db.SaveChangesAsync();
                         return true;
@@ -222,15 +233,14 @@ namespace LovelyMother.Services
             }
         }
 
-        public async Task<bool> UpdateProgressAsync(Progress Progress)
+        public async Task<bool> UpdateProgressAsync(String progressName,String defaultTime)
         {
             using (var db = new MyDatabaseContext())
             {
-                var Announcement = await db.Progresses.SingleOrDefaultAsync(m => m.Id == Progress.Id);
-                if (Announcement != null)
+                var progress = await db.Progresses.FirstOrDefaultAsync(m => m.ProgressName == progressName);
+                if (progress != null)
                 {
-                    Announcement = Progress;
-                    db.Progresses.Update(Announcement);
+                    progress.DefaultName = defaultTime;
                     await db.SaveChangesAsync();
                     return true;
                 }
@@ -248,14 +258,14 @@ namespace LovelyMother.Services
         /// <returns></returns>
 
 
-        public async Task<bool> DeleteUserAsync(User User)
+        public async Task<bool> DeleteUserAsync(String userName)
         {
             using (var db = new MyDatabaseContext())
             {
-                var Announcement = await db.Users.SingleOrDefaultAsync(m => m.Id == User.Id);
-                if (Announcement != null)
+                var user = await db.Users.SingleOrDefaultAsync(m => m.UserName == userName);
+                if (user != null)
                 {
-                    db.Users.Remove(Announcement);
+                    db.Users.Remove(user);
                     await db.SaveChangesAsync();
                     return true;
                 }
@@ -268,18 +278,18 @@ namespace LovelyMother.Services
 
         }
 
-        public async Task<bool> DeleteTaskAsync(MotherLibrary.Task Task,User User)
+        public async Task<bool> DeleteTaskAsync(String userName,int date,String begin)
         {
             using (var db = new MyDatabaseContext())
             {
 
-                var CurrentUser = await db.Users.FirstOrDefaultAsync(m => m.Id == User.Id);
-                if (CurrentUser != null)
+                var currentUser = await db.Users.FirstOrDefaultAsync(m => m.UserName == userName);
+                if (currentUser != null)
                 {
-                    var Announcement = await db.Tasks.SingleOrDefaultAsync(m => m.Id == Task.Id && m.UserId == User.Id);
-                    if (Announcement != null)
+                    var task = await db.Tasks.SingleOrDefaultAsync(m => m.Date == date && m.Begin == begin && m.UserId == currentUser.Id);
+                    if (task != null)
                     {
-                        db.Tasks.Remove(Announcement);
+                        db.Tasks.Remove(task);
                         await db.SaveChangesAsync();
                         return true;
                     }
@@ -299,14 +309,14 @@ namespace LovelyMother.Services
             }
         }
 
-        public async Task<bool> DeleteProgressAsync(Progress Progress)
+        public async Task<bool> DeleteProgressAsync(String progressName)
         {
             using (var db = new MyDatabaseContext())
             {
-                var Announcement = await db.Progresses.SingleOrDefaultAsync(m => m.Id == Progress.Id);
-                if (Announcement != null)
+                var progress = await db.Progresses.SingleOrDefaultAsync(m => m.ProgressName == progressName);
+                if (progress != null)
                 {
-                    db.Progresses.Remove(Announcement);
+                    db.Progresses.Remove(progress);
                     await db.SaveChangesAsync();
                     return true;
                 }

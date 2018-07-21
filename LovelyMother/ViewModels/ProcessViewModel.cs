@@ -169,8 +169,7 @@ namespace LovelyMother.ViewModels
             {
                 //TODO : 发送信息时直接封装
                 var ms = new MotherService();
-                var pg = new MotherLibrary.Progress { ProgressName = message.ExectableFileName, DefaultName = message.thisName };
-                await ms.NewProgressAsync(pg);
+                await ms.NewProgressAsync(message.ExectableFileName, message.thisName);
             });
         }
 
