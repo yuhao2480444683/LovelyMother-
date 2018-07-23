@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using GalaSoft.MvvmLight.Command;
 using LovelyMother.Services;
 using MotherLibrary;
@@ -21,7 +22,7 @@ namespace LovelyMother.ViewModels
             private set;
         }
 
-        public User _currentUser;
+        private User _currentUser;
 
         public User CurrentUser
         {
@@ -66,7 +67,7 @@ namespace LovelyMother.ViewModels
         /// </summary>
         private RelayCommand<Task> _addTaskCommand;
 
-        public RelayCommand<Task> AddProgressCommand =>
+        public RelayCommand<Task> AddTaskCommand =>
             _addTaskCommand ?? (_addTaskCommand = new RelayCommand<Task>(
                 async task =>
                 {
@@ -74,14 +75,15 @@ namespace LovelyMother.ViewModels
                 }));
 
 
+
         /// <summary>
         /// 删除命令。
         /// </summary>
-        private RelayCommand<Progress> _deleteProgressCommand;
+        private RelayCommand<Task> _deleteTaskCommand;
 
-        public RelayCommand<Progress> DeleteProgressCommand =>
-            _deleteProgressCommand ?? (_deleteProgressCommand = new RelayCommand<Progress>(
-                async progress => { await _motherService.DeleteProgressAsync(progress.ProgressName); }));
+        public RelayCommand<Task> DeleteTaskCommand =>
+            _deleteTaskCommand ?? (_deleteTaskCommand = new RelayCommand<Task>(
+                async task => { await _motherService.DeleteTaskAsync(_currentUser.UserName,task.Date,task.Begin); }));
 
 
 
