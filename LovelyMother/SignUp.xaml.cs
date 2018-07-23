@@ -55,7 +55,7 @@ namespace LovelyMother
 
 
 
-        private async void QButton_OnClick(object sender, RoutedEventArgs e)
+        private void QButton_OnClick(object sender, RoutedEventArgs e)
 
         {
 

@@ -12,7 +12,7 @@ using MotherLibrary;
 
 namespace LovelyMother.ViewModels
 {
-    public class TestViewModel:ViewModelBase
+    public class ProgressViewModel:ViewModelBase
     {
 
         public ProcessViewModel processModel;
@@ -35,7 +35,9 @@ namespace LovelyMother.ViewModels
         }
 
 
-
+        /// <summary>
+        /// 刷新命令。
+        /// </summary>
         private RelayCommand _listProgressCommand;
 
         public RelayCommand ListProgressCommand => _listProgressCommand ?? (_listProgressCommand = new RelayCommand(async () =>
@@ -43,12 +45,39 @@ namespace LovelyMother.ViewModels
             ProgressCollection.Clear();
             var progresses = await _motherService.ListProgressAsync();
 
-            foreach (var contact in progresses)
+            foreach (var progress in progresses)
             {
-                ProgressCollection.Add(contact);
+                ProgressCollection.Add(progress);
             }
 
         }));
+
+        /// <summary>
+        /// 新添命令。
+        /// </summary>
+        private RelayCommand<Progress> _addProgressCommand;
+
+        public RelayCommand<Progress> AddProgressCommand =>
+            _addProgressCommand ?? (_addProgressCommand = new RelayCommand<Progress>(
+                async progress =>
+                {
+                    await _motherService.NewProgressAsync(progress.ProgressName, progress.DefaultName);
+                }));
+
+
+        /// <summary>
+        /// 删除命令。
+        /// </summary>
+        private RelayCommand<Progress> _deleteProgressCommand;
+
+        public RelayCommand<Progress> DeleteProgressCommand =>
+            _deleteProgressCommand ?? (_deleteProgressCommand = new RelayCommand<Progress>(
+                async progress => { await _motherService.DeleteProgressAsync(progress.ProgressName); }));
+
+
+
+
+
 
         /// <summary>
         /// 联系人服务。
@@ -56,14 +85,14 @@ namespace LovelyMother.ViewModels
         private IMotherService _motherService;
 
 
-        public TestViewModel(IMotherService motherService)
+        public ProgressViewModel(IMotherService motherService)
         {
             _motherService = motherService;
             ProgressCollection = new ObservableCollection<Progress>();
             processModel = new ProcessViewModel(new ProcessService());
         }
 
-        public TestViewModel() : this(new MotherService())
+        public ProgressViewModel() : this(new MotherService())
         {
 
         }
