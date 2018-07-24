@@ -9,11 +9,11 @@ using MotherLibrary;
 
 namespace TestServices.TestProgressViewModel
 {
-    //[TestClass]
+    [TestClass]
     public class TestProgressViewModel
     {
-        /*[TestMethod]
-        public void TestAddProgressCommand()
+        [TestMethod]
+        public void TestListProgressCommand()
         {
             var progresses = new Progress[]
             {
@@ -21,12 +21,12 @@ namespace TestServices.TestProgressViewModel
                 new Progress {ProgressName = "testp2", DefaultName = "222"}
 
             };
-            var stubIMotherService = new StubIMotherService();
-            stubIMotherService.NewProgressAsync(async () => progresses);
-            var mainPageViewModel = new TestViewModel(stubIMotherService);
-            mainPageViewModel.AddProgressCommand.Execute(null);
-            Assert.AreEqual(2, mainPageViewModel.ProgressCollection.Count);
-        }*/
+            var stubIContactService = new StubIContactService();
+            stubIContactService.ListProgressAsync(async () => progresses);
+            var progressViewModel = new ProgressViewModel(stubIContactService);
+            progressViewModel.ListProgressCommand.Execute(null);
+            Assert.AreEqual(2, progressViewModel.ProgressCollection.Count);
+        }
 
     }
 }

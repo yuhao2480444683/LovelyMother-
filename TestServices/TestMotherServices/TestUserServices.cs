@@ -9,7 +9,7 @@ using User = Windows.System.User;
 
 namespace TestServices.TestMotherService
 {
-    [TestClass]
+    //[TestClass]
     public class TestMotherService
     {
         //[TestMethod]      //Success

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using LovelyMother.Services;
 using MotherLibrary;
@@ -12,7 +13,7 @@ using Task = MotherLibrary.Task;
 
 namespace LovelyMother.ViewModels
 {
-    public class TaskViewModel
+    public class TaskViewModel:ViewModelBase
     {
 
 
