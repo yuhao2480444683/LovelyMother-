@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestServices.TestMotherServices
 {
-    [TestClass]
+    //[TestClass]
     public class TestProgressServices
     {
         [TestMethod]          //Success
