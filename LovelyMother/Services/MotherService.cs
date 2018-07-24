@@ -325,12 +325,12 @@ namespace LovelyMother.Services
             }
         }
 
-        public async Task<bool> ExistUserAsync(string username)
+        public async Task<bool> RightPairAsync(string username,string password)
         {
             using (var db = new MyDatabaseContext())
             {
                 var user = await db.Users.SingleOrDefaultAsync(m => m.UserName == username);
-                if (user != null)
+                if (user != null && user.Password == password)
                 {
                     return true;
                 }

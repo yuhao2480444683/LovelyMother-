@@ -24,68 +24,55 @@ namespace LovelyMother.ViewModels
         }
 
 
-        private User _inPutUser;
-
-        public User InPutUser
-        {
-            get => _inPutUser;
-            set => Set(nameof(InPutUser), ref _inPutUser, value);
-        }
-
 
         /// <summary>
-        /// 当前登录用户。
+        /// 绑定属性。
         /// </summary>
-        private User _currentUser;
 
-        public User CurrentUser
+        private String _inPutUserName;
+
+        public String InPutUserName
         {
-            get => _currentUser;
-            set => Set(nameof(CurrentUser), ref _currentUser, value);
+            get => _inPutUserName;
+            set => Set(nameof(InPutUserName), ref _inPutUserName, value);
+        }
+
+        private String _inPutPassword;
+
+        public String InPutPassword
+        {
+            get => _inPutPassword;
+            set => Set(nameof(InPutPassword), ref _inPutPassword, value);
         }
 
 
+        private DateTime _date;
 
-
-
-        /// <summary>
-        /// 属性。
-        /// </summary>
-        private string _begin;
-        public string Begin
+        public DateTime Date
         {
-            get => _begin;
-            set => Set(nameof(Begin), ref _begin, value);
+            get => _date;
+            set => Set(nameof(Date), ref _date, value);
         }
 
-        private int _id;
-        public int Id
+
+        private DateTime _defaultBegin;
+        public DateTime DefaultBegin
         {
-            get => _id;
-            set => Set(nameof(Id), ref _id, value);
+            get => _defaultBegin;
+            set => Set(nameof(DefaultBegin), ref _defaultBegin, value);
         }
 
-        private string _end;
-        public string End
+        private DateTime _defaultend;
+        public DateTime DefaultEnd
         {
-            get => _end;
-            set => Set(nameof(End), ref _end, value);
+            get => _defaultend;
+            set => Set(nameof(DefaultEnd), ref _defaultend, value);
         }
 
-        private int _totalTime;
-        public int TotalTime
-        {
-            get => _totalTime;
-            set => Set(nameof(TotalTime), ref _totalTime, value);
-        }
-        private int _defaultTime;
-        public int DefaultTime
-        {
-            get => _defaultTime;
-            set => Set(nameof(DefaultTime), ref _defaultTime, value);
-        }
+ 
 
         private string _introduction;
+
         public string Introduction
         {
             get => _introduction;
@@ -93,36 +80,28 @@ namespace LovelyMother.ViewModels
         }
 
 
-        private int _date;
-        public int Date
-        {
-            get => _date;
-            set => Set(nameof(Date), ref _date, value);
-        }
-
-        private int _finish;
-        public int Finish
-        {
-            get => _finish;
-            set => Set(nameof(Finish), ref _finish, value);
-        }
-       
 
 
+        /// <summary>
+        /// 当前登录用户。
+        /// </summary>
+        public User CurrentUser;
+
+        public Task CurrentTask;
 
 
 
         private RelayCommand _signInCommand;
         public RelayCommand SignInCommand => _signInCommand ?? (_signInCommand = new RelayCommand(async () =>
         {
-            var result = await _motherService.ExistUserAsync(_inPutUser.UserName);
+            var result = await _motherService.RightPairAsync(InPutUserName,InPutPassword);
             if (result)
             {
-                _currentUser.UserName = _inPutUser.UserName;
+                CurrentUser.UserName = InPutUserName;
             }
             else
             {
-                _currentUser = null;
+                CurrentUser = null;
             }
         }));
 
@@ -131,15 +110,30 @@ namespace LovelyMother.ViewModels
         private RelayCommand _updateCommand;
         public RelayCommand UpdateCommand => _updateCommand ?? (_updateCommand = new RelayCommand(async () =>
         {
+            //todo
+            //Date的计算在这里转换
+
+            //Begin的Tostring在这里转换
+
+            //获取当前时间的End的计算在完成或放弃时触发赋值
+
+            //DefaultTime的计算在这里计算 todo
+            //CurrentTask.DefaultTime = ;
+
+            //TotalTime的计算应该在点击完成或放弃时触发赋值  todo
+
+            //Introduction更新在更改任务说明时点保存时赋值
+            CurrentTask.Introduction = Introduction;
+
             await _motherService.UpdateTaskAsync(
-                _currentUser.UserName,
-                Date, 
-                Begin, 
-                End,
-                DefaultTime,
-                Finish,
-                TotalTime,
-                Introduction);
+                CurrentUser.UserName,
+                CurrentTask.Date, 
+                CurrentTask.Begin, 
+                CurrentTask.End,
+                CurrentTask.DefaultTime,
+                CurrentTask.Finish,
+                CurrentTask.TotalTime,
+                CurrentTask.Introduction);
 
         }));
 
@@ -155,11 +149,11 @@ namespace LovelyMother.ViewModels
         public RelayCommand ListProgressCommand => _listTaskCommand ?? (_listTaskCommand = new RelayCommand(async () =>
         {
             TaskCollection.Clear();
-            var tasks = await _motherService.ListTaskAsync(_currentUser.UserName);
+            var tasks = await _motherService.ListTaskAsync(CurrentUser.UserName);
 
-            foreach (var progress in tasks)
+            foreach (var task in tasks)
             {
-                TaskCollection.Add(progress);
+                TaskCollection.Add(task);
             }
 
         }));
@@ -168,15 +162,52 @@ namespace LovelyMother.ViewModels
         /// <summary>
         /// 新添命令。
         /// </summary>
-        private RelayCommand<Task> _addTaskCommand;
+        private RelayCommand _addTaskCommand;
 
-        public RelayCommand<Task> AddTaskCommand =>
-            _addTaskCommand ?? (_addTaskCommand = new RelayCommand<Task>(
-                async task =>
+        public RelayCommand AddTaskCommand =>
+            _addTaskCommand ?? (_addTaskCommand = new RelayCommand(
+                async () =>
                 {
-                   
+                    //todo
+                    //Date的计算在这里转换
+                    CurrentTask.Date = Date.Year * 1000 + Date.Month * 100 + Date.Day;
+                    //Begin的Tostring在这里转换
+                    CurrentTask.Begin = (DefaultBegin.Hour * 100 + DefaultBegin.Minute).ToString();
+                    //获取当前时间的End的计算在完成或放弃时触发赋值
+                    //DefaultTime的计算在这里计算
                     
-                    await _motherService.NewTaskAsync(_currentUser.UserName,Date,Begin, DefaultTime, Introduction);
+                    if (DefaultBegin.Hour <= DefaultEnd.Hour)
+                    {
+                        if (DefaultBegin.Minute >= DefaultEnd.Minute)
+                        {
+
+                        }
+                        else
+                        {
+                            
+                        }
+
+
+                    }
+                    else
+                    {
+                        if (DefaultBegin.Minute >= DefaultEnd.Minute)
+                        {
+                            CurrentTask.DefaultTime = (DefaultBegin.Hour - DefaultEnd.Hour) * 60 +
+                                           (DefaultBegin.Minute - DefaultEnd.Minute);
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    //TotalTime的计算应该在点击完成或放弃时触发赋值
+
+                    //Introduction更新在更改任务说明时点保存时赋值
+
+                    
+                    
+                    await _motherService.NewTaskAsync(CurrentUser.UserName, CurrentTask.Date, CurrentTask.Begin, CurrentTask.DefaultTime, Introduction);
                 }));
 
 
@@ -189,7 +220,11 @@ namespace LovelyMother.ViewModels
 
         public RelayCommand<Task> DeleteTaskCommand =>
             _deleteTaskCommand ?? (_deleteTaskCommand = new RelayCommand<Task>(
-                async task => { await _motherService.DeleteTaskAsync(_currentUser.UserName, Date, Begin); }));
+                async task =>
+                {
+                    //ItemClick触发时更新当前Task各项数据  todo
+                    await _motherService.DeleteTaskAsync(CurrentUser.UserName, CurrentTask.Date, CurrentTask.Begin);
+                }));
 
 
         

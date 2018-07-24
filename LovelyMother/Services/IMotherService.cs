@@ -22,7 +22,7 @@ namespace LovelyMother.Services
         /// <param name="username"></param>
         /// <returns></returns>
 
-        Task<Boolean> ExistUserAsync(String username);
+        Task<Boolean> RightPairAsync(String username,String password);
 
 
         /// <summary>
