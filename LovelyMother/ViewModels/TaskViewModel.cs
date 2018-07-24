@@ -49,15 +49,67 @@ namespace LovelyMother.ViewModels
 
 
         /// <summary>
-        /// 选择的任务。
+        /// 属性。
         /// </summary>
-        private Task _currentTask;
-
-        public Task CurrentTask
+        private string _begin;
+        public string Begin
         {
-            get => _currentTask;
-            set => Set(nameof(CurrentTask), ref _currentTask, value);
+            get => _begin;
+            set => Set(nameof(Begin), ref _begin, value);
         }
+
+        private int _id;
+        public int Id
+        {
+            get => _id;
+            set => Set(nameof(Id), ref _id, value);
+        }
+
+        private string _end;
+        public string End
+        {
+            get => _end;
+            set => Set(nameof(End), ref _end, value);
+        }
+
+        private int _totalTime;
+        public int TotalTime
+        {
+            get => _totalTime;
+            set => Set(nameof(TotalTime), ref _totalTime, value);
+        }
+        private int _defaultTime;
+        public int DefaultTime
+        {
+            get => _defaultTime;
+            set => Set(nameof(DefaultTime), ref _defaultTime, value);
+        }
+
+        private string _introduction;
+        public string Introduction
+        {
+            get => _introduction;
+            set => Set(nameof(Introduction), ref _introduction, value);
+        }
+
+
+        private int _date;
+        public int Date
+        {
+            get => _date;
+            set => Set(nameof(Date), ref _date, value);
+        }
+
+        private int _finish;
+        public int Finish
+        {
+            get => _finish;
+            set => Set(nameof(Finish), ref _finish, value);
+        }
+       
+
+
+
 
 
         private RelayCommand _signInCommand;
@@ -72,14 +124,22 @@ namespace LovelyMother.ViewModels
             {
                 _currentUser = null;
             }
-
-
         }));
 
+
+        
         private RelayCommand _updateCommand;
         public RelayCommand UpdateCommand => _updateCommand ?? (_updateCommand = new RelayCommand(async () =>
         {
-            await _motherService.UpdateTaskAsync(_currentUser.UserName,_currentTask.Date, _currentTask.Begin, _currentTask.End, _currentTask.DefaultTime, _currentTask.Finish, _currentTask.TotalTime, _currentTask.Introduction)
+            await _motherService.UpdateTaskAsync(
+                _currentUser.UserName,
+                Date, 
+                Begin, 
+                End,
+                DefaultTime,
+                Finish,
+                TotalTime,
+                Introduction);
 
         }));
 
@@ -114,19 +174,22 @@ namespace LovelyMother.ViewModels
             _addTaskCommand ?? (_addTaskCommand = new RelayCommand<Task>(
                 async task =>
                 {
-                    await _motherService.NewTaskAsync(_currentUser.UserName,_currentTask.Date,_currentTask.Begin, _currentTask.DefaultTime, _currentTask.Introduction);
+                   
+                    
+                    await _motherService.NewTaskAsync(_currentUser.UserName,Date,Begin, DefaultTime, Introduction);
                 }));
 
 
 
         /// <summary>
         /// 删除命令。
+        /// 
         /// </summary>
         private RelayCommand<Task> _deleteTaskCommand;
 
         public RelayCommand<Task> DeleteTaskCommand =>
             _deleteTaskCommand ?? (_deleteTaskCommand = new RelayCommand<Task>(
-                async task => { await _motherService.DeleteTaskAsync(_currentUser.UserName, _currentTask.Date, _currentTask.Begin); }));
+                async task => { await _motherService.DeleteTaskAsync(_currentUser.UserName, Date, Begin); }));
 
 
         

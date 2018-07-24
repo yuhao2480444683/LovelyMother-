@@ -165,6 +165,10 @@ namespace LovelyMother
                 var setTime = E.Time - S.Time;
                 
                 int TimeCount = setTime.Hours * 3600 + setTime.Minutes * 60;//倒计时秒数
+                
+                //传入的参数。
+               
+                    
                 //await new MessageDialog().ShowAsync();
                 //int TimeCount = 10;
                 timer.Tick += new EventHandler<object>(async (sende, ei) =>
@@ -219,44 +223,7 @@ namespace LovelyMother
         }
 
 
-        /// <summary>
-        /// 刷新。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-       /* private void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            Refresh.RequestRefresh();
-        }
-
-        private  void RefreshContainer_RefreshRequested
-            (RefreshContainer sender, RefreshRequestedEventArgs args)
-        {
-            using (var deferral = args.GetDeferral())
-            {
-                (this.DataContext as ProgressViewModel).AddProgressCommand.Execute(null);
-            }
-        }*/
-        /// <summary>
-        /// 不可删！！！！
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnSetState_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-       
-        /// <summary>
-        /// 添加
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /*private void Add_Click(object sender, RoutedEventArgs e)
-        {
-            (this.DataContext as ProgressViewModel).AddProgressCommand.Execute(null);
-        }*/
+        
 
         private void AddProgress_Click(object sender, RoutedEventArgs e)
         {

@@ -30,19 +30,12 @@ namespace LovelyMother.TimeWrok
 
                 await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
                 OverallConfigManger.Instence.WindowMode = ApplicationViewMode.CompactOverlay;
-                //ApplicationView.GetForCurrentView().TryEnterFullScreenMode();//设为全屏
-               /* for (int i=50; i>=0;i--)
-                {
-                    await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
-                    OverallConfigManger.Instence.WindowMode = ApplicationViewMode.CompactOverlay;
-
-                    ApplicationView.GetForCurrentView().TryEnterFullScreenMode();//设为全屏
-                }*/
+               
             }
            else
-            //if(ApplicationView.GetForCurrentView().TryEnterFullScreenMode())
+          
             {
-                //ApplicationView.GetForCurrentView().ExitFullScreenMode();//退出全屏
+                
                 await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
                 OverallConfigManger.Instence.WindowMode = ApplicationViewMode.Default;
 

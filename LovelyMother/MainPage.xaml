@@ -11,11 +11,9 @@
     Loaded="Page_Loaded">
 
     <Page.DataContext>
-        <Binding Source="{StaticResource progressViewModel}"></Binding>
+        <Binding Source="{StaticResource taskViewModel}"></Binding>
     </Page.DataContext>
     <Page.Resources >
-
-        
         <ResourceDictionary>
             <local1:KeepTopCommand x:Name="KeepTop"/>
             <local1:ExitFull x:Name="Exit"/>
@@ -91,11 +89,7 @@
             </Style>
         </ResourceDictionary>
     </Page.Resources>
-
-
     <Grid >
-        
-        
         <RelativePanel >
             <Ellipse Width="100" Height="100" Margin="5,5,5,5" RenderTransformOrigin="0.5,0.5" >
                 <Ellipse.RenderTransform>
@@ -114,13 +108,25 @@
                     </TextBlock.RenderTransform>
                 </TextBlock>
                 <Button
-                    x:Name="btnSetState"
-                    Click="btnSetState_Click"  HorizontalAlignment="Left" Height="5" VerticalAlignment="Center" Width="0" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5"  Background="White">
+                    x:Name="btnSetState"                   
+                    HorizontalAlignment="Left" 
+                    Height="5" 
+                    VerticalAlignment="Center" 
+                    Width="0" 
+                    Margin="0,0,0,0" 
+                    RenderTransformOrigin="0.5,0.5"  
+                    Background="White">
                     <Button.RenderTransform>
                         <CompositeTransform ScaleX="-1" ScaleY="-1"/>
                     </Button.RenderTransform>
                 </Button>
-                <Button Style="{StaticResource ButtonStyle1}" Content="" Margin="5,0,0,0" HorizontalAlignment="Left" Height="90" VerticalAlignment="Center" Width="100" RenderTransformOrigin="0.391,0.453">
+                <Button Style="{StaticResource ButtonStyle1}" 
+                        Content="" Margin="5,0,0,0" 
+                        HorizontalAlignment="Left" 
+                        Height="90" 
+                        VerticalAlignment="Center" 
+                        Width="100" 
+                        RenderTransformOrigin="0.391,0.453">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -128,12 +134,8 @@
                             </StackPanel>
                         </DataTemplate>
                     </Button.ContentTemplate>
-
-
                     <Button.Flyout>
-                      
                         <MenuFlyout>
-
                             <MenuFlyoutItem Text="更换头像"
                                   Click="ChoosePicture_Click"/>
 
@@ -145,8 +147,7 @@
                                                     Name="AddProgress"
                                                     Click="AddProgress_Click"/>
                                     <MenuFlyoutItem Text="B2-2" />
-                               
-                            </MenuFlyoutSubItem>
+                                </MenuFlyoutSubItem>
                             </MenuFlyoutSubItem>
                         </MenuFlyout>
                     </Button.Flyout>
@@ -154,7 +155,7 @@
 
             </StackPanel>
         </RelativePanel>
-        <Grid Grid.Column="1"
+        <Grid 
             Width="250" 
               Height="250"
               Margin="0,0,0,130">
@@ -181,15 +182,19 @@
                     Margin="0,0,0,150">
             <TimePicker Header="StartTime" 
                     Name="S" 
+                    Time="{Binding Begin}"
                     HorizontalAlignment="Left"  
                     VerticalAlignment="Top" 
                    />
             <TimePicker Header="EndTime" 
                     Name="E" 
+                    Time="{Binding End}"
                     HorizontalAlignment="Left"  
                     VerticalAlignment="Center" 
                     />
         </StackPanel>
+        
+        
         <StackPanel 
             Grid.Column="1"
             Orientation="Horizontal"
@@ -218,8 +223,5 @@
                 Label="ExitFull"
                 Command="{StaticResource Exit}"/>
         </StackPanel>
-       
-
-
     </Grid>
 </Page>
