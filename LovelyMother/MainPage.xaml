@@ -11,7 +11,7 @@
     Loaded="Page_Loaded">
 
     <Page.DataContext>
-        <Binding Source="{StaticResource TestViewModel}"></Binding>
+        <Binding Source="{StaticResource progressViewModel}"></Binding>
     </Page.DataContext>
     <Page.Resources >
 
@@ -143,8 +143,10 @@
                                 <MenuFlyoutSubItem Text="用户">
                                 <MenuFlyoutItem Text="登录（注册）"  
                                                Click="MenuFlyoutItem_Click" />
-                                <MenuFlyoutSubItem Text="B2">
-                                    <MenuFlyoutItem Text="B2-1" />
+                                <MenuFlyoutSubItem Text="菜单">
+                                    <MenuFlyoutItem Text="新建"
+                                                    Name="AddProgress"
+                                                    Click="AddProgress_Click"/>
                                     <MenuFlyoutItem Text="B2-2" />
                                
                             </MenuFlyoutSubItem>
@@ -219,46 +221,7 @@
                 Label="ExitFull"
                 Command="{StaticResource Exit}"/>
         </StackPanel>
-        <Grid Grid.Row="1">
-            <RefreshContainer 
-                Name="Refresh"
-                RefreshRequested="RefreshContainer_RefreshRequested">
-                    <ListView Name="List"
-                              IsItemClickEnabled="True"
-                              ItemsSource="{Binding ProgressCollection}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="25" Text="{Binding ProgressName}"/>
-                                    <TextBlock FontSize="25" Text="{Binding DefaultName}"
-                                               Margin="4,0,0,0"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </RefreshContainer>
-                <CommandBar
-                    OverflowButtonVisibility="Collapsed" 
-                    VerticalAlignment="Bottom" 
-                    HorizontalAlignment="Stretch" 
-                    
-                    DefaultLabelPosition="Right">
-                    <AppBarButton Icon="Refresh" 
-                              Label="Refresh" 
-                              Name="RefreshButton"
-                                  Click="RefreshButton_Click"
-                              />
-                   
-                    <AppBarButton Icon="Add" 
-                              Label="Add" 
-                              Name="Add"
-                              />
-                </CommandBar>
-            
-            
-            
-        </Grid>
-
+       
 
 
     </Grid>

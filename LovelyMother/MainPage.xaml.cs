@@ -224,7 +224,7 @@ namespace LovelyMother
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+       /* private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             Refresh.RequestRefresh();
         }
@@ -234,13 +234,33 @@ namespace LovelyMother
         {
             using (var deferral = args.GetDeferral())
             {
-                (this.DataContext as TestViewModel).ListProgressCommand.Execute(null);
+                (this.DataContext as ProgressViewModel).AddProgressCommand.Execute(null);
             }
-        }
-
+        }*/
+        /// <summary>
+        /// 不可删！！！！
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSetState_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+       
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /*private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as ProgressViewModel).AddProgressCommand.Execute(null);
+        }*/
+
+        private void AddProgress_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Add));
         }
     }
 }

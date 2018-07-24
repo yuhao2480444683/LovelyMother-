@@ -23,6 +23,22 @@ namespace LovelyMother.ViewModels
             private set;
         }
 
+        private string _progressName;
+        public string ProgressName
+        {
+            get => _progressName;
+            set => Set(nameof(ProgressName), ref _progressName, value);
+        }
+
+
+        private string _defaultName;
+        public string DefaultName
+        {
+            get => _defaultName;
+            set => Set(nameof(DefaultName), ref _defaultName, value);
+        }
+
+
         /// <summary>
         /// 选择的联系人。
         /// </summary>
@@ -52,27 +68,30 @@ namespace LovelyMother.ViewModels
 
         }));
 
+
+
+
         /// <summary>
         /// 新添命令。
         /// </summary>
-        private RelayCommand<Progress> _addProgressCommand;
+        private RelayCommand _addProgressCommand;
 
-        public RelayCommand<Progress> AddProgressCommand =>
-            _addProgressCommand ?? (_addProgressCommand = new RelayCommand<Progress>(
-                async progress =>
+        public RelayCommand AddProgressCommand =>
+            _addProgressCommand ?? (_addProgressCommand = new RelayCommand(
+                async () =>
                 {
-                    await _motherService.NewProgressAsync(progress.ProgressName, progress.DefaultName);
+                    await _motherService.NewProgressAsync(_progressName, _defaultName);
                 }));
 
 
         /// <summary>
         /// 删除命令。
         /// </summary>
-        private RelayCommand<Progress> _deleteProgressCommand;
+        private RelayCommand _deleteProgressCommand;
 
-        public RelayCommand<Progress> DeleteProgressCommand =>
-            _deleteProgressCommand ?? (_deleteProgressCommand = new RelayCommand<Progress>(
-                async progress => { await _motherService.DeleteProgressAsync(progress.ProgressName); }));
+        public RelayCommand DeleteProgressCommand =>
+            _deleteProgressCommand ?? (_deleteProgressCommand = new RelayCommand(
+                async () => { await _motherService.DeleteProgressAsync(_progressName); }));
 
 
 

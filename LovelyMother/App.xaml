@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <viewModels:ProcessViewModel x:Key="pViewModel"/>
-            <viewModels:ProgressViewModel x:Key="TestViewModel"/>
+            <viewModels:ProgressViewModel x:Key="progressViewModel"/>
 
         </ResourceDictionary>
     </Application.Resources>
