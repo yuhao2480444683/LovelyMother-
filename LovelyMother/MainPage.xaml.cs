@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using LovelyMother.Services;
-using Microsoft.EntityFrameworkCore;
-using MotherLibrary;
 using Task = System.Threading.Tasks.Task;
 using Windows.System;
 using Windows.ApplicationModel.DataTransfer;
@@ -26,6 +16,7 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using GalaSoft.MvvmLight.Messaging;
 using LovelyMother.Models;
+using LovelyMother.ViewModels;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -149,10 +140,7 @@ namespace LovelyMother
             }
         }
 
-        private void btnSetState_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
@@ -215,7 +203,11 @@ namespace LovelyMother
             Messenger.Default.Send(new ListenMessage() { listenMessage = "End" });
             timer.Stop();
         }
-
+        /// <summary>
+        /// 骚扰。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Bling));
@@ -224,6 +216,31 @@ namespace LovelyMother
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             DiagnosticAccessStatus diagnosticAccessStatus = await AppDiagnosticInfo.RequestAccessAsync();
+        }
+
+
+        /// <summary>
+        /// 刷新。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            Refresh.RequestRefresh();
+        }
+
+        private  void RefreshContainer_RefreshRequested
+            (RefreshContainer sender, RefreshRequestedEventArgs args)
+        {
+            using (var deferral = args.GetDeferral())
+            {
+                (this.DataContext as TestViewModel).ListProgressCommand.Execute(null);
+            }
+        }
+
+        private void btnSetState_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

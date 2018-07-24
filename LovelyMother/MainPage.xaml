@@ -118,7 +118,7 @@
                 </TextBlock>
                 <Button
                     x:Name="btnSetState"
-                    Click="btnSetState_Click" HorizontalAlignment="Left" Height="5" VerticalAlignment="Center" Width="0" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5"  Background="White">
+                    Click="btnSetState_Click"  HorizontalAlignment="Left" Height="5" VerticalAlignment="Center" Width="0" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5"  Background="White">
                     <Button.RenderTransform>
                         <CompositeTransform ScaleX="-1" ScaleY="-1"/>
                     </Button.RenderTransform>
@@ -209,7 +209,7 @@
                 Click="End_Click"/>
             <AppBarSeparator />
             <AppBarButton 
-                Icon="Add"
+                Icon="Sort"
                 Label="Top" 
                 Command="{StaticResource KeepTop}"
                Click="AppBarButton_Click"/>
@@ -220,28 +220,41 @@
                 Command="{StaticResource Exit}"/>
         </StackPanel>
         <Grid Grid.Row="1">
-            <StackPanel>
-                <RefreshContainer>
+            <RefreshContainer 
+                Name="Refresh"
+                RefreshRequested="RefreshContainer_RefreshRequested">
                     <ListView Name="List"
                               IsItemClickEnabled="True"
-                              
-                              ItemsSource="{Binding ProgressCollection}">
+                              ItemsSource="{Binding ProgressCollection}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="25" Text="{Binding }"/>
+                                    <TextBlock FontSize="25" Text="{Binding ProgressName}"/>
+                                    <TextBlock FontSize="25" Text="{Binding DefaultName}"
+                                               Margin="4,0,0,0"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </RefreshContainer>
-                <Button  
-                    Name="Frash" 
+                <CommandBar
+                    OverflowButtonVisibility="Collapsed" 
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Stretch" 
                     
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                />
-            </StackPanel>
+                    DefaultLabelPosition="Right">
+                    <AppBarButton Icon="Refresh" 
+                              Label="Refresh" 
+                              Name="RefreshButton"
+                                  Click="RefreshButton_Click"
+                              />
+                   
+                    <AppBarButton Icon="Add" 
+                              Label="Add" 
+                              Name="Add"
+                              />
+                </CommandBar>
+            
             
             
         </Grid>

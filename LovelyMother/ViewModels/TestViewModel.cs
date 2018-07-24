@@ -24,7 +24,7 @@ namespace LovelyMother.ViewModels
         }
 
         /// <summary>
-        /// 选择的联系人。
+        /// 选择的程序。
         /// </summary>
         private Progress _selectedProgress;
 
@@ -35,7 +35,9 @@ namespace LovelyMother.ViewModels
         }
 
 
-
+        /// <summary>
+        /// 更新程序列表。(刷新。)
+        /// </summary>
         private RelayCommand _listProgressCommand;
 
         public RelayCommand ListProgressCommand => _listProgressCommand ?? (_listProgressCommand = new RelayCommand(async () =>
@@ -51,10 +53,9 @@ namespace LovelyMother.ViewModels
         }));
 
         /// <summary>
-        /// 联系人服务。
+        /// 程序服务。（初始化程序列表。）
         /// </summary>
         private IMotherService _motherService;
-
 
         public TestViewModel(IMotherService motherService)
         {
@@ -63,10 +64,20 @@ namespace LovelyMother.ViewModels
             processModel = new ProcessViewModel(new ProcessService());
         }
 
+
+
+
+
+
+        /// <summary>
+        /// 空构造函数。
+        /// </summary>
         public TestViewModel() : this(new MotherService())
         {
 
         }
+
+
 
 
 
