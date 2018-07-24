@@ -23,32 +23,13 @@ namespace LovelyMother.ViewModels
             private set;
         }
 
-        private string _progressName;
-        public string ProgressName
+        private Progress _currentProgress;
+        public Progress CurrentProgress
         {
-            get => _progressName;
-            set => Set(nameof(ProgressName), ref _progressName, value);
+            get => _currentProgress;
+            set => Set(nameof(CurrentProgress), ref _currentProgress, value);
         }
 
-
-        private string _defaultName;
-        public string DefaultName
-        {
-            get => _defaultName;
-            set => Set(nameof(DefaultName), ref _defaultName, value);
-        }
-
-
-        /// <summary>
-        /// 选择的联系人。
-        /// </summary>
-        private Progress _selectedProgress;
-
-        public Progress SelectedProgress
-        {
-            get => _selectedProgress;
-            set => Set(nameof(SelectedProgress), ref _selectedProgress, value);
-        }
 
 
         /// <summary>
@@ -68,6 +49,15 @@ namespace LovelyMother.ViewModels
 
         }));
 
+        private RelayCommand _updateProgressCommand;
+
+        public RelayCommand UpdateProgressCommand => _updateProgressCommand ?? (_updateProgressCommand = new RelayCommand(async () =>
+                                                         {
+                                                             await _motherService.UpdateProgressAsync(
+                                                                 _currentProgress.ProgressName,
+                                                                 _currentProgress.DefaultName);
+                                                         }));
+
 
 
 
@@ -80,7 +70,7 @@ namespace LovelyMother.ViewModels
             _addProgressCommand ?? (_addProgressCommand = new RelayCommand(
                 async () =>
                 {
-                    await _motherService.NewProgressAsync(_progressName, _defaultName);
+                    await _motherService.NewProgressAsync(_currentProgress.ProgressName, _currentProgress.DefaultName);
                 }));
 
 
@@ -91,7 +81,7 @@ namespace LovelyMother.ViewModels
 
         public RelayCommand DeleteProgressCommand =>
             _deleteProgressCommand ?? (_deleteProgressCommand = new RelayCommand(
-                async () => { await _motherService.DeleteProgressAsync(_progressName); }));
+                async () => { await _motherService.DeleteProgressAsync(_currentProgress.ProgressName); }));
 
 
 

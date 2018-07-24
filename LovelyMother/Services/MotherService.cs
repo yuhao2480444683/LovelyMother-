@@ -324,5 +324,23 @@ namespace LovelyMother.Services
 
             }
         }
+
+        public async Task<bool> ExistUserAsync(string username)
+        {
+            using (var db = new MyDatabaseContext())
+            {
+                var user = await db.Users.SingleOrDefaultAsync(m => m.UserName == username);
+                if (user != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
+
+            }
+        }
     }
 }

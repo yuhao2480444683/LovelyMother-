@@ -12,8 +12,8 @@ namespace TestServices.TestProgressViewModel
     [TestClass]
     public class TestProgressViewModel
     {
-        [TestMethod]
-        public void TestListProgressCommand()
+        //[TestMethod]
+        /*public void TestListProgressCommand()
         {
             var progresses = new Progress[]
             {
@@ -26,7 +26,7 @@ namespace TestServices.TestProgressViewModel
             var progressViewModel = new ProgressViewModel(stubIContactService);
             progressViewModel.ListProgressCommand.Execute(null);
             Assert.AreEqual(2, progressViewModel.ProgressCollection.Count);
-        }
+        }*/
 
     }
 }

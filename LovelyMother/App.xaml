@@ -8,6 +8,8 @@
         <ResourceDictionary>
             <viewModels:ProcessViewModel x:Key="pViewModel"/>
             <viewModels:ProgressViewModel x:Key="progressViewModel"/>
+            <viewModels:TaskViewModel x:Key="taskViewModel"/>
+
 
         </ResourceDictionary>
     </Application.Resources>

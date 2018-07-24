@@ -17,6 +17,15 @@ namespace LovelyMother.Services
     {
 
         /// <summary>
+        /// 当前用户是否存在
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+
+        Task<Boolean> ExistUserAsync(String username);
+
+
+        /// <summary>
         /// 新建一个用户到数据库。
         /// </summary>
         /// <param name="User"></param>
