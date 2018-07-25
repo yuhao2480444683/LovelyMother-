@@ -9,7 +9,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using LovelyMother.Services;
 using MotherLibrary;
-using Task = MotherLibrary.Task;
+
 
 namespace LovelyMother.ViewModels
 {
@@ -46,13 +46,7 @@ namespace LovelyMother.ViewModels
         }
 
 
-        private DateTime _date;
-
-        public DateTime Date
-        {
-            get => _date;
-            set => Set(nameof(Date), ref _date, value);
-        }
+        
 
 
         private DateTime _defaultBegin;
@@ -79,15 +73,28 @@ namespace LovelyMother.ViewModels
             set => Set(nameof(Introduction), ref _introduction, value);
         }
 
+        /*private int _defaultTime;
+        public int DefaultTime
+        {
+            get => _defaultTime;
+            set => Set(nameof(DefaultTime), ref _defaultTime, value);
+        }*/
+
+        private string _userName;
+        public string UserName
+        {
+            get=> _userName;
+            set => Set(nameof(UserName), ref _userName, value);
+        }
 
 
 
         /// <summary>
         /// 当前登录用户。
         /// </summary>
-        public User CurrentUser;
+        //public User CurrentUser;
 
-        public Task CurrentTask;
+        //public Task CurrentTask
 
 
 
@@ -97,17 +104,17 @@ namespace LovelyMother.ViewModels
             var result = await _motherService.RightPairAsync(InPutUserName,InPutPassword);
             if (result)
             {
-                CurrentUser.UserName = InPutUserName;
+                UserName = InPutUserName;
             }
             else
             {
-                CurrentUser = null;
+                UserName = null;
             }
         }));
 
 
         
-        private RelayCommand _updateCommand;
+        /*private RelayCommand _updateCommand;
         public RelayCommand UpdateCommand => _updateCommand ?? (_updateCommand = new RelayCommand(async () =>
         {
             //todo
@@ -135,7 +142,7 @@ namespace LovelyMother.ViewModels
                 CurrentTask.TotalTime,
                 CurrentTask.Introduction);
 
-        }));
+        }));*/
 
 
 
@@ -149,7 +156,7 @@ namespace LovelyMother.ViewModels
         public RelayCommand ListProgressCommand => _listTaskCommand ?? (_listTaskCommand = new RelayCommand(async () =>
         {
             TaskCollection.Clear();
-            var tasks = await _motherService.ListTaskAsync(CurrentUser.UserName);
+            var tasks = await _motherService.ListTaskAsync(UserName);
 
             foreach (var task in tasks)
             {
@@ -170,44 +177,16 @@ namespace LovelyMother.ViewModels
                 {
                     //todo
                     //Date的计算在这里转换
-                    CurrentTask.Date = Date.Year * 1000 + Date.Month * 100 + Date.Day;
+                    int Date = DateTime.Now.Year*10000+DateTime.Now.Month*100+DateTime.Now.Day;
+                    //Date =  DateTime.Now; 
                     //Begin的Tostring在这里转换
-                    CurrentTask.Begin = (DefaultBegin.Hour * 100 + DefaultBegin.Minute).ToString();
-                    //获取当前时间的End的计算在完成或放弃时触发赋值
+                    //Begin = (DefaultBegin.Hour * 100 + DefaultBegin.Minute).ToString();
                     //DefaultTime的计算在这里计算
-                    
-                    if (DefaultBegin.Hour <= DefaultEnd.Hour)
-                    {
-                        if (DefaultBegin.Minute >= DefaultEnd.Minute)
-                        {
-
-                        }
-                        else
-                        {
-                            
-                        }
-
-
-                    }
-                    else
-                    {
-                        if (DefaultBegin.Minute >= DefaultEnd.Minute)
-                        {
-                            CurrentTask.DefaultTime = (DefaultBegin.Hour - DefaultEnd.Hour) * 60 +
-                                           (DefaultBegin.Minute - DefaultEnd.Minute);
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    //TotalTime的计算应该在点击完成或放弃时触发赋值
-
+                    int DefaultTime=(DefaultEnd.Hour * 60 + DefaultEnd.Minute) - (DefaultBegin.Hour * 60 + DefaultBegin.Minute);//转换成分钟。
                     //Introduction更新在更改任务说明时点保存时赋值
-
-                    
-                    
-                    await _motherService.NewTaskAsync(CurrentUser.UserName, CurrentTask.Date, CurrentTask.Begin, CurrentTask.DefaultTime, Introduction);
+                    //CurrentTask.Introduction = null;//暂时为空。
+                    string Begin = (DefaultBegin.Hour * 60 + DefaultBegin.Minute).ToString();
+                    await _motherService.NewTaskAsync(UserName,Date, Begin, DefaultTime, Introduction);
                 }));
 
 
@@ -216,7 +195,7 @@ namespace LovelyMother.ViewModels
         /// 删除命令。
         /// 
         /// </summary>
-        private RelayCommand<Task> _deleteTaskCommand;
+        /*private RelayCommand<Task> _deleteTaskCommand;
 
         public RelayCommand<Task> DeleteTaskCommand =>
             _deleteTaskCommand ?? (_deleteTaskCommand = new RelayCommand<Task>(
@@ -224,7 +203,7 @@ namespace LovelyMother.ViewModels
                 {
                     //ItemClick触发时更新当前Task各项数据  todo
                     await _motherService.DeleteTaskAsync(CurrentUser.UserName, CurrentTask.Date, CurrentTask.Begin);
-                }));
+                }));*/
 
 
         
@@ -238,12 +217,15 @@ namespace LovelyMother.ViewModels
         public TaskViewModel(IMotherService motherService)
         {
             _motherService = motherService;
-            TaskCollection = new ObservableCollection<Task>();
+            TaskCollection = new ObservableCollection<MotherLibrary.Task>();
+
+           
+           
         }
 
         public TaskViewModel() : this(new MotherService())
         {
-
+           
         }
 
 

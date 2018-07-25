@@ -1,0 +1,91 @@
+﻿<Page
+    x:Class="LovelyMother.AddTask"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LovelyMother"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.DataContext>
+        <Binding Source="{StaticResource taskViewModel}"></Binding>
+    </Page.DataContext>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <ListView Name="List"
+                      Grid.Column="0"
+                      IsItemClickEnabled="True"
+                      ItemsSource="{Binding TaskCollection}" 
+                      HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="25" Text="{Binding  Begin}"/>
+                        <TextBlock FontSize="25" Text="{Binding DefaultTime}"
+                                               Margin="4,0,0,0"/>
+                        <TextBlock FontSize="25" Text="{Binding User}"
+                                               Margin="4,0,0,0"/>
+                        <TextBlock FontSize="25" Text="{Binding Introduction}"
+                                               Margin="4,0,0,0"/>
+                        <TextBlock FontSize="25" Text="{Binding Date}"
+                                               Margin="4,0,0,0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button
+            Content="Addprogress" 
+            VerticalAlignment="Bottom"
+            Command="{Binding AddTaskCommand}"/>
+        <Button
+            Content="Delete" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Bottom"
+            Command="{Binding DeleteTaskCommand}"/>
+
+        <Button
+            Content="List" 
+            VerticalAlignment="Bottom" 
+            HorizontalAlignment="Right"
+            Command="{Binding ListProgressCommand}"/>
+
+
+        <Grid Grid.Column="1">
+            <StackPanel>
+                <CommandBar Background="Transparent"
+                        OverflowButtonVisibility="Collapsed"
+                        DefaultLabelPosition="Right"
+                        >
+                    <AppBarButton Name="Save"
+                              Icon="Save"
+                              Label="Save"
+                             
+                              />
+                </CommandBar>
+                <TextBlock Text="ProgressName"
+                           Style="{StaticResource CaptionTextBlockStyle}"
+                           Margin="12,0,0,4"/>
+                <TextBox Name="FirstNameTextBox"
+                         Text="{Binding ProgressName, Mode=TwoWay}"
+                         Margin="12,0,0,4"/>
+                <TextBlock Text="DefaultName"
+                           Style="{StaticResource CaptionTextBlockStyle}"
+                           Margin="12,12,0,4"/>
+                <TextBox Name="LastNameTextBox"
+                          Text="{Binding DefaultName, Mode=TwoWay}"
+                     Margin="12,0,0,4"/>
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</Page>

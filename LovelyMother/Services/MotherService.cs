@@ -117,7 +117,7 @@ namespace LovelyMother.Services
                             Date = date,
                             UserId = currentUser.Id,
                             Begin = begin,
-                           // End = Task.End,
+                            End =  begin,
                             TotalTime = 0,
                             DefaultTime = defaulttime,
                             Introduction = introduction,

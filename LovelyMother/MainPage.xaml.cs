@@ -229,5 +229,10 @@ namespace LovelyMother
         {
             Frame.Navigate(typeof(Add));
         }
+
+        private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SignIn));
+        }
     }
 }

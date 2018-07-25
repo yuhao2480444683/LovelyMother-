@@ -13,6 +13,8 @@
     <Page.DataContext>
         <Binding Source="{StaticResource taskViewModel}"></Binding>
     </Page.DataContext>
+    
+    
     <Page.Resources >
         <ResourceDictionary>
             <local1:KeepTopCommand x:Name="KeepTop"/>
@@ -90,7 +92,11 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid >
-        <RelativePanel >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <RelativePanel Grid.Column="1">
             <Ellipse Width="100" Height="100" Margin="5,5,5,5" RenderTransformOrigin="0.5,0.5" >
                 <Ellipse.RenderTransform>
                     <CompositeTransform Rotation="0.016"/>
@@ -155,7 +161,7 @@
 
             </StackPanel>
         </RelativePanel>
-        <Grid 
+        <Grid Grid.Column="1"
             Width="250" 
               Height="250"
               Margin="0,0,0,130">
@@ -182,19 +188,18 @@
                     Margin="0,0,0,150">
             <TimePicker Header="StartTime" 
                     Name="S" 
-                    Time="{Binding Begin}"
+                    Time="{Binding DefaultBegin, Mode=TwoWay}"
                     HorizontalAlignment="Left"  
                     VerticalAlignment="Top" 
                    />
             <TimePicker Header="EndTime" 
-                    Name="E" 
-                    Time="{Binding End}"
+                    Name="E"
+                    
+                    
                     HorizontalAlignment="Left"  
                     VerticalAlignment="Center" 
                     />
         </StackPanel>
-        
-        
         <StackPanel 
             Grid.Column="1"
             Orientation="Horizontal"
@@ -204,7 +209,9 @@
                 Icon="Next" 
                 Label="Start" 
                 Name="Time"
-                Click="Time_Click" Background="White"/>
+                Click="Time_Click" 
+                Background="White"
+                />
             <AppBarSeparator />
             <AppBarButton 
                 Icon="Target" 
@@ -221,7 +228,44 @@
             <AppBarButton
                 Icon="Back"
                 Label="ExitFull"
+                Click="AppBarButton_Click_1"
                 Command="{StaticResource Exit}"/>
         </StackPanel>
+        <ListView Name="List"
+                      Grid.Column="0"
+                      IsItemClickEnabled="True"
+                      ItemsSource="{Binding TaskCollection}" 
+                      HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="25" Text="{Binding Date}"/>
+                        <TextBlock FontSize="25" Text="{Binding Begin}"
+                                               Margin="4,0,0,0"/>
+                        <TextBlock FontSize="25" Text="{Binding UserId}"
+                                               Margin="4,0,0,0"/>
+                        <TextBlock FontSize="25" Text="{Binding DefaultTime}"
+                                               Margin="4,0,0,0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button
+            Content="Addprogress" 
+            VerticalAlignment="Bottom"
+            Command="{Binding AddTaskCommand}"/>
+        <Button
+            Content="Delete" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Bottom"
+            Command="{Binding DeleteTaskCommand}"/>
+
+        <Button
+            Content="List" 
+            VerticalAlignment="Bottom" 
+            HorizontalAlignment="Right"
+            Command="{Binding ListProgressCommand}"/>
     </Grid>
 </Page>

@@ -85,7 +85,7 @@
 
                             <TextBlock Text="用户名    :" FontSize="18" Margin="70,65,30,20" Foreground="DarkSlateGray"></TextBlock>
 
-                            <TextBox   Name="SignupUser"  Text="{Binding InPutUser.UserName, Mode=TwoWay}"   PlaceholderText="          电子邮箱" Width="400" FontSize="18" Margin="0,60,0,20" Foreground="SlateGray" BorderThickness="0,0,0,1" BorderBrush="Pink"></TextBox>
+                            <TextBox   Name="SignupUser"  Text="{Binding InPutUserName, Mode=TwoWay}"   PlaceholderText="          电子邮箱" Width="400" FontSize="18" Margin="0,60,0,20" Foreground="SlateGray" BorderThickness="0,0,0,1" BorderBrush="Pink"></TextBox>
 
 
 
@@ -95,7 +95,7 @@
 
                             <TextBlock Text="设置密码 :" FontSize="18" Margin="70,65,30,40" Foreground="DarkSlateGray"></TextBlock>
 
-                            <TextBox  Name="SignupPassword"  Text="{Binding InPutUser.Password, Mode=TwoWay}"  PlaceholderText="          输入密码" Width="400" FontSize="18" Margin="0,60,0,40" Foreground="SlateGray" BorderThickness="0,0,0,1" BorderBrush="Pink"></TextBox>
+                            <TextBox  Name="SignupPassword"  Text="{Binding InPutPassword, Mode=TwoWay}"  PlaceholderText="          输入密码" Width="400" FontSize="18" Margin="0,60,0,40" Foreground="SlateGray" BorderThickness="0,0,0,1" BorderBrush="Pink"></TextBox>
 
                         </StackPanel>
 

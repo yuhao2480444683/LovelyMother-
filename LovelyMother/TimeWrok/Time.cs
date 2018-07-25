@@ -57,7 +57,7 @@ namespace LovelyMother.TimeWrok
 
         public void Execute(object parameter)
         {
-            ApplicationView.GetForCurrentView().ExitFullScreenMode();//退出全屏
+            //ApplicationView.GetForCurrentView().ExitFullScreenMode();//退出全屏
         }
     }
 }

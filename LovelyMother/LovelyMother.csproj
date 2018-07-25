@@ -95,6 +95,9 @@
     <Compile Include="AddProgress.xaml.cs">
       <DependentUpon>AddProgress.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddTask.xaml.cs">
+      <DependentUpon>AddTask.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -156,6 +159,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AddProgress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddTask.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
