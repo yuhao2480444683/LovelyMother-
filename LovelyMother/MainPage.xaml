@@ -188,14 +188,13 @@
                     Margin="0,0,0,150">
             <TimePicker Header="StartTime" 
                     Name="S" 
-                    Time="{Binding DefaultBegin, Mode=TwoWay}"
+                    Time="{Binding DefaultBegin,Mode=TwoWay}"
                     HorizontalAlignment="Left"  
                     VerticalAlignment="Top" 
                    />
             <TimePicker Header="EndTime" 
                     Name="E"
-                    
-                    
+                    Time="{Binding DefaultEnd,Mode=TwoWay}"
                     HorizontalAlignment="Left"  
                     VerticalAlignment="Center" 
                     />
@@ -235,6 +234,7 @@
                       Grid.Column="0"
                       IsItemClickEnabled="True"
                       ItemsSource="{Binding TaskCollection}" 
+                      ItemClick="List_ItemClick"
                       HorizontalAlignment="Stretch" 
                       VerticalAlignment="Stretch">
             <ListView.ItemTemplate>
