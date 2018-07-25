@@ -234,5 +234,13 @@ namespace LovelyMother
         {
             Frame.Navigate(typeof(SignIn));
         }
+
+        private void List_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var clickTask = e.ClickedItem as MotherLibrary.Task;
+            (this.DataContext as TaskViewModel).Begin = clickTask.Begin;
+            (this.DataContext as TaskViewModel).Date = clickTask.Date;
+
+        }
     }
 }

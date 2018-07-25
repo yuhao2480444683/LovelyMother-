@@ -49,15 +49,15 @@ namespace LovelyMother.ViewModels
         
 
 
-        private DateTime _defaultBegin;
-        public DateTime DefaultBegin
+        private TimeSpan _defaultBegin;
+        public TimeSpan DefaultBegin
         {
             get => _defaultBegin;
             set => Set(nameof(DefaultBegin), ref _defaultBegin, value);
         }
 
-        private DateTime _defaultend;
-        public DateTime DefaultEnd
+        private TimeSpan _defaultend;
+        public TimeSpan DefaultEnd
         {
             get => _defaultend;
             set => Set(nameof(DefaultEnd), ref _defaultend, value);
@@ -87,7 +87,9 @@ namespace LovelyMother.ViewModels
             set => Set(nameof(UserName), ref _userName, value);
         }
 
-
+        public int Date;
+        public int DefaultTime;
+        public string Begin;
 
         /// <summary>
         /// 当前登录用户。
@@ -177,15 +179,15 @@ namespace LovelyMother.ViewModels
                 {
                     //todo
                     //Date的计算在这里转换
-                    int Date = DateTime.Now.Year*10000+DateTime.Now.Month*100+DateTime.Now.Day;
+                    Date = DateTime.Now.Year*10000+DateTime.Now.Month*100+DateTime.Now.Day;
                     //Date =  DateTime.Now; 
                     //Begin的Tostring在这里转换
                     //Begin = (DefaultBegin.Hour * 100 + DefaultBegin.Minute).ToString();
                     //DefaultTime的计算在这里计算
-                    int DefaultTime=(DefaultEnd.Hour * 60 + DefaultEnd.Minute) - (DefaultBegin.Hour * 60 + DefaultBegin.Minute);//转换成分钟。
+                    DefaultTime=(DefaultEnd.Hours * 60 + DefaultEnd.Minutes) - (DefaultBegin.Hours * 60 + DefaultBegin.Minutes);//转换成分钟。
                     //Introduction更新在更改任务说明时点保存时赋值
                     //CurrentTask.Introduction = null;//暂时为空。
-                    string Begin = (DefaultBegin.Hour * 60 + DefaultBegin.Minute).ToString();
+                    Begin = (DefaultBegin.Hours * 60 + DefaultBegin.Minutes).ToString();//转换成分钟
                     await _motherService.NewTaskAsync(UserName,Date, Begin, DefaultTime, Introduction);
                 }));
 
@@ -195,15 +197,15 @@ namespace LovelyMother.ViewModels
         /// 删除命令。
         /// 
         /// </summary>
-        /*private RelayCommand<Task> _deleteTaskCommand;
+        private RelayCommand<MotherLibrary.Task> _deleteTaskCommand;
 
-        public RelayCommand<Task> DeleteTaskCommand =>
-            _deleteTaskCommand ?? (_deleteTaskCommand = new RelayCommand<Task>(
+        public RelayCommand<MotherLibrary.Task> DeleteTaskCommand =>
+            _deleteTaskCommand ?? (_deleteTaskCommand = new RelayCommand<MotherLibrary.Task>(
                 async task =>
                 {
                     //ItemClick触发时更新当前Task各项数据  todo
-                    await _motherService.DeleteTaskAsync(CurrentUser.UserName, CurrentTask.Date, CurrentTask.Begin);
-                }));*/
+                    await _motherService.DeleteTaskAsync(UserName, Date, Begin);
+                }));
 
 
         
