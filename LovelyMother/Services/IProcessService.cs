@@ -11,7 +11,7 @@ namespace LovelyMother.Services
     public interface IProcessService
     {
         ObservableCollection<RunningProcess> GetProcessNow();
-        bool IfNewProgramExist(List<String> appName)
+        bool IfNewProgramExist(List<String> appName);
     }
 }
 //定义Service应该实现的操作

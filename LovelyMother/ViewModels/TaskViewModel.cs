@@ -23,6 +23,8 @@ namespace LovelyMother.ViewModels
             private set;
         }
 
+        private ProgressViewModel progressViewModel;
+
 
 
         /// <summary>
@@ -220,7 +222,7 @@ namespace LovelyMother.ViewModels
         {
             _motherService = motherService;
             TaskCollection = new ObservableCollection<MotherLibrary.Task>();
-
+            progressViewModel = new ProgressViewModel();
            
            
         }

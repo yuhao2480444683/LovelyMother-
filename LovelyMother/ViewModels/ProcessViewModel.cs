@@ -178,6 +178,7 @@ namespace LovelyMother.ViewModels
             //初始化监听进程列
             appName = new List<string>();
             appName.Add("cloudmusic.exe");
+            mediaPlayer = new MediaPlayer();
 
             condition1 = new List<RunningProcess>();
             condition2 = new List<RunningProcess>();
