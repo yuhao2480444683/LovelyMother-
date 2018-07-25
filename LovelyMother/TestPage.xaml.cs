@@ -20,11 +20,16 @@ namespace LovelyMother
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class AddTask : Page
+    public sealed partial class TestPage : Page
     {
-        public AddTask()
+        public TestPage()
         {
             this.InitializeComponent();
+        }
+
+        private void ListProgress_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
         }
     }
 }

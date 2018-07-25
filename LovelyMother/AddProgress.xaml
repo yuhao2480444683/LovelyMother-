@@ -79,6 +79,7 @@
                           Text="{Binding DefaultName, Mode=TwoWay}"
                      Margin="12,0,0,4"/>
             </StackPanel>
+            
 
         </Grid>
        

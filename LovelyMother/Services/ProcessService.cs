@@ -14,6 +14,37 @@ namespace LovelyMother.Services
     public class ProcessService : IProcessService
     {
         /// <summary>
+        /// 获得processFirst中比processSecond中多出来的值
+        /// </summary>
+        /// <param name="processFirst"></param>
+        /// <param name="processSecond"></param>
+        /// <returns> ObservableCollection<RunningProcess> </returns>
+        public ObservableCollection<RunningProcess> GetProcessDifferent(ObservableCollection<RunningProcess> processFirst, ObservableCollection<RunningProcess> processSecond)
+        {
+            int i;
+            int j;
+            bool judge;
+            var temp = new ObservableCollection<RunningProcess>();
+
+            for(i = 0;i < processFirst.Count; i++)
+            {
+                for(j = 0, judge = true; j <processSecond.Count ; j++)
+                {
+                    if (processFirst[i].fileName.Equals(processSecond[j].fileName))
+                    {
+                        judge = false;
+                        break;
+                    }
+                }
+                if(judge == true)
+                {
+                    temp.Add(processFirst[i]);
+                }
+            }
+            return temp;
+        }
+
+        /// <summary>
         /// 获取所有进程
         /// </summary>
         public ObservableCollection<RunningProcess> GetProcessNow()

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using LovelyMother.Models;
 using LovelyMother.Services;
 using MotherLibrary;
 
@@ -15,6 +16,14 @@ namespace LovelyMother.ViewModels
     public class ProgressViewModel:ViewModelBase
     {
 
+        /// <summary>
+        /// 读取指定进程所用的三个数组
+        /// </summary>
+
+        /// <summary>
+        /// 进程服务
+        /// </summary>
+       
         public ProcessViewModel processModel;
 
         public ObservableCollection<Progress> ProgressCollection
@@ -97,7 +106,29 @@ namespace LovelyMother.ViewModels
                 async () => { await _motherService.DeleteProgressAsync(ProgressName); }));
 
 
-
+        /// <summary>
+        /// 绑定开始。
+        /// </summary>
+        private RelayCommand _progress1;
+        public RelayCommand Progress1 =>
+            _progress1 ?? (_progress1 = new RelayCommand(
+                 () => {
+                     processModel.getNewListPage_ReadProcessNow();
+                }));
+        /// <summary>
+        /// 绑定关闭。
+        /// </summary>
+        private RelayCommand _progress2;
+        public RelayCommand Progress2 =>
+            _progress2 ?? (_progress2 = new RelayCommand(
+                 () => {
+                     processModel.getNewListPage_ReadProcessWanted();
+                 }));
+        /// <summary>
+        /// 绑定保存。
+        /// </summary>
+        private RelayCommand _progress3;
+        public RelayCommand Progress3;
 
 
 

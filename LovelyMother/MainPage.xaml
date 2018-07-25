@@ -152,7 +152,10 @@
                                     <MenuFlyoutItem Text="新建"
                                                     Name="AddProgress"
                                                     Click="AddProgress_Click"/>
-                                    <MenuFlyoutItem Text="B2-2" />
+                                    <MenuFlyoutItem Text="Test"
+                                                    Name="Test"
+                                                    Click="Test_Click"
+                                                    />
                                 </MenuFlyoutSubItem>
                             </MenuFlyoutSubItem>
                         </MenuFlyout>

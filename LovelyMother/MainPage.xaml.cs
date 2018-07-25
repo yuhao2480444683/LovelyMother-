@@ -242,5 +242,10 @@ namespace LovelyMother
             (this.DataContext as TaskViewModel).Date = clickTask.Date;
 
         }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(TestPage));
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace LovelyMother.Services
     {
         ObservableCollection<RunningProcess> GetProcessNow();
         bool IfNewProgramExist(List<String> appName);
+        ObservableCollection<RunningProcess> GetProcessDifferent(ObservableCollection<RunningProcess> processFirst, ObservableCollection<RunningProcess> processSecond);
     }
 }
 //定义Service应该实现的操作

@@ -27,6 +27,21 @@ namespace LovelyMother.ViewModels
 {
     public class ProcessViewModel : ViewModelBase
     {
+        /// <summary>
+        /// 提供给黑名单添加页面的服务 —— 三个数组
+        /// </summary>
+        
+        private ObservableCollection<RunningProcess> _processFirst;
+
+        private ObservableCollection<RunningProcess> _processSecond;
+
+        private ObservableCollection<RunningProcess> _processWanted;
+
+        public ObservableCollection<RunningProcess> processWanted
+        {
+            get => _processWanted;
+            set => Set(nameof(processWanted), ref _processWanted, value);
+        }
 
         private List<String> appName;
 
@@ -165,8 +180,45 @@ namespace LovelyMother.ViewModels
             ( _refreshCommand = new RelayCommand( () => { RefreshAsync(); }));
 
 
-        //公开方法
+        /** 公开方法 **/
 
+        
+        // 黑名单页面方法
+        
+        //第一次读取
+        public bool getNewListPage_ReadProcessNow()
+        {
+
+            _processWanted.Clear();
+
+            _processFirst = _processService.GetProcessNow();
+            if(_processFirst.Count == 0)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
+
+        //读取出进程值
+        public bool getNewListPage_ReadProcessWanted()
+        {
+            _processSecond = _processService.GetProcessNow();
+
+            _processWanted = _processService.GetProcessDifferent(_processFirst,_processSecond);
+
+            _processFirst.Clear();
+            _processSecond.Clear();
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="processService"></param>
         public ProcessViewModel(IProcessService processService)
         {
             _processService = processService;
@@ -182,6 +234,8 @@ namespace LovelyMother.ViewModels
 
             condition1 = new List<RunningProcess>();
             condition2 = new List<RunningProcess>();
+
+            InitProcessService();
 
             Messenger.Default.Register<ListenMessage>(this, (message) =>
             {
@@ -223,19 +277,11 @@ namespace LovelyMother.ViewModels
             });
         }
 
-        private void ReadProcess_two()
+        private void InitProcessService()
         {
-            throw new NotImplementedException();
-        }
-
-        private void ReadProcess_one()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void GetProcess()
-        {
-            throw new NotImplementedException();
+            _processFirst = new ObservableCollection<RunningProcess>();
+            _processSecond = new ObservableCollection<RunningProcess>();
+            _processWanted = new ObservableCollection<RunningProcess>();
         }
 
         public ProcessViewModel() : this(DesignMode.DesignModeEnabled ?
