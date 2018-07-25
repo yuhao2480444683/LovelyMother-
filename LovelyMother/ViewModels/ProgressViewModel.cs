@@ -140,7 +140,6 @@ namespace LovelyMother.ViewModels
 
         public ProgressViewModel(IMotherService motherService)
         {
-            _motherService = motherService;
             ProgressCollection = new ObservableCollection<Progress>();
             processModel = new ProcessViewModel(new ProcessService());
         }

@@ -1,9 +1,12 @@
 ﻿using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Ioc;
+using LovelyMother.Services;
 using Microsoft.EntityFrameworkCore;
 using MotherLibrary;
 
@@ -16,6 +19,20 @@ namespace LovelyMother
     /// </summary>
     sealed partial class App : Application
     {
+        /// <summary>
+        ///     应用全名。
+        /// </summary>
+        public const string QualifiedAppName = "";   //todo 应用全名
+
+        public const string HttpClientErrorMessage =
+            "Sorry!!!\n\nAn error occurred when we tried to send your request to our server.\nPlease screenshot this dialog and send it to your teacher.\n\nError:\n";
+
+        /// <summary>
+        ///     服务端点。
+        /// </summary>
+        public static readonly string ServerEndpoint = ResourceLoader
+            .GetForCurrentView("AppSettings").GetString("UvpServerEndpoint");
+
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
         /// 已执行，逻辑上等同于 main() 或 WinMain()。
@@ -91,6 +108,11 @@ namespace LovelyMother
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
+
+            var identityService =
+                SimpleIoc.Default.GetInstance<IIdentityService>();
+            identityService.Save();
+
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
         }
