@@ -13,24 +13,36 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.Media.Core;
+using Windows.Media.Playback;
+using Windows.Security.Cryptography;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using static AudioUtils.VolumeControl;
 
 namespace LovelyMother.ViewModels
 {
     public class ProcessViewModel : ViewModelBase
     {
 
-        private IProcessService _processService;
+        private List<String> appName;
 
-        public ObservableCollection<RunningProcess> ProcessAtFirst { get; private set; }
+        private string[] musicLocation = { "ms-appx:///Assets/Musics/1.mp3", "ms-appx:///Assets/Musics/2.mp3",
+                                           "ms-appx:///Assets/Musics/3.mp3", "ms-appx:///Assets/Musics/4.mp3",
+                                           "ms-appx:///Assets/Musics/5.mp3" };
+
+        private IProcessService _processService;
 
         public Information information { get; private set; }
 
         public int template = 0;
+
+        private bool ifMusicPlaying;
+
+        private MediaPlayer mediaPlayer;
 
         /// <summary>
         /// template value for the judge
@@ -58,46 +70,53 @@ namespace LovelyMother.ViewModels
 
         private RelayCommand _refreshCommand;
 
+        /// <summary>
+        /// 开始刷新
+        /// </summary>
         private async void RefreshAsync()
         {
             int i = 0;
-             do
+            do
             {
-                var ProcessNow = _processService.GetProcessNow();
-                var judge = _processService.IfNewProgramExist(ProcessAtFirst, ProcessNow);
-                if (judge == true)
-                {
-                    information.ifNewProgramExist = "True";
-                    i = 1;
-                    var currentAV = ApplicationView.GetForCurrentView();
-                    var newAV = CoreApplication.CreateNewView();
-                    await newAV.Dispatcher.RunAsync(
-                                    CoreDispatcherPriority.Normal,
-                                    async () =>
-                                    {
-                                        var newWindow = Window.Current;
-                                        var newAppView = ApplicationView.GetForCurrentView();
-                                        newAppView.Title = "你怎么回事弟弟？";
+                var NewProcess = _processService.IfNewProgramExist(appName);
 
-                                        var frame = new Frame();
-                                        frame.Navigate(typeof(Bling), null);
-                                        newWindow.Content = frame;
-                                        newWindow.Activate();
-
-                                        await ApplicationViewSwitcher.TryShowAsStandaloneAsync(
-                                            newAppView.Id,
-                                            ViewSizePreference.UseMinimum,
-                                            currentAV.Id,
-                                            ViewSizePreference.UseMinimum);
-                                    });
-                }
-                else
+                if (NewProcess == false)
                 {
                     information.ifNewProgramExist = "False";
                     i = 0;
+
+                    if (ifMusicPlaying == true)
+                    {
+                        //Dispose() : 释放对象
+                        mediaPlayer.Pause();
+                        ifMusicPlaying = false;
+                    }
                 }
+                else
+                {
+                    information.ifNewProgramExist = "True";
+                    i = 1;
+
+                    //弹出新窗口
+                    PunishWindow();
+
+                    //播放音乐
+                    if (ifMusicPlaying == false)
+                    {
+                        //设置音乐
+                        ChangeVolumeToMaxLevel();
+                 
+                        //播放音乐
+                        int random = (int)(CryptographicBuffer.GenerateRandomNumber() % 5);
+                        mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(musicLocation[random]));
+                        mediaPlayer.Play();
+                        ifMusicPlaying = true;
+                    }
+                }
+                //刷新次数加一
                 information.refreshTime++;
-                if(i == 0)
+
+                if (i == 0)
                 {
                     await Task.Delay(10000);
                 }
@@ -105,14 +124,41 @@ namespace LovelyMother.ViewModels
                 {
                     await Task.Delay(2000);
                 }
-                if(template == 1)
+                if (template == 1)
                 {
                     template = 0;
                     break;
                 }
             }
             while (true);
+        }
 
+        /// <summary>
+        /// 弹出骚扰窗口
+        /// </summary>
+        private async void PunishWindow()
+        {
+            var currentAV = ApplicationView.GetForCurrentView();
+            var newAV = CoreApplication.CreateNewView();
+            await newAV.Dispatcher.RunAsync(
+                            CoreDispatcherPriority.Normal,
+                            async () =>
+                            {
+                                var newWindow = Window.Current;
+                                var newAppView = ApplicationView.GetForCurrentView();
+                                newAppView.Title = "你怎么回事弟弟？";
+
+                                var frame = new Frame();
+                                frame.Navigate(typeof(Bling), null);
+                                newWindow.Content = frame;
+                                newWindow.Activate();
+
+                                await ApplicationViewSwitcher.TryShowAsStandaloneAsync(
+                                newAppView.Id,
+                                ViewSizePreference.UseMinimum,
+                                currentAV.Id,
+                                ViewSizePreference.UseMinimum);
+                            });
         }
 
         public RelayCommand RefreshCommand  => _refreshCommand ?? 
@@ -127,8 +173,11 @@ namespace LovelyMother.ViewModels
             information = new Information();
 
             information.refreshTime = 0;
-            ProcessAtFirst = _processService.GetProcessNow();
             information.ifNewProgramExist = "False";
+
+            //初始化监听进程列
+            appName = new List<string>();
+            appName.Add("cloudmusic.exe");
 
             condition1 = new List<RunningProcess>();
             condition2 = new List<RunningProcess>();

@@ -121,6 +121,7 @@
     <Compile Include="Services\IProcessService.cs" />
     <Compile Include="Services\MotherService.cs" />
     <Compile Include="Services\ProcessService.cs" />
+    <Compile Include="Services\VolumeService.cs" />
     <Compile Include="SignIn.xaml.cs">
       <DependentUpon>SignIn.xaml</DependentUpon>
     </Compile>
@@ -140,6 +141,11 @@
     <None Include="LovelyMother_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Musics\1.mp3" />
+    <Content Include="Assets\Musics\2.mp3" />
+    <Content Include="Assets\Musics\3.mp3" />
+    <Content Include="Assets\Musics\4.mp3" />
+    <Content Include="Assets\Musics\5.mp3" />
     <Content Include="images\0.jpg" />
     <Content Include="images\02.gif" />
     <Content Include="images\11.jpg" />

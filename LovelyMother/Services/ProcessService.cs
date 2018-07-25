@@ -52,41 +52,25 @@ namespace LovelyMother.Services
         /// 是否有新进程出现
         /// </summary>
         /// <returns>是 ：true / 否 ： false</returns>
-        public bool IfNewProgramExist(ObservableCollection<RunningProcess> before, ObservableCollection<RunningProcess> now)
+        public bool IfNewProgramExist(List<String> appName)
         {
-
-            int i = 0;
-            int j = 0;
+            int i;
+            int j;
+            var Process = GetProcessNow();
             bool result = false;
 
-            long systemId = new long();
-
-            //预处理：先获得system.exe的id
-            for(i = 0; i < before.Count; i++)
+            for (i = 0; i < Process.Count; i++)
             {
-                //TODO : 检索出真正的程序
-                if (before[i].fileName == "System.exe")
+                for (j = 0; j < appName.Count; j++)
                 {
-                    systemId = before[i].id;
-                    break;
-                }
-            }
-
-            //检索now数组
-            for(i = 0; i < now.Count; i++)
-            {
-                if (now[i].parentName == "explorer.exe")
-                {
-                    for(j = 0, result = true; j < before.Count; j++)
+                    //若进程名相同，则不存在新进程
+                    if (Process[i].fileName.Equals(appName[j]))
                     {
-                        if(before[j].fileName == now[i].fileName)
-                        {
-                            result = false;
-                            break;
-                        }
+                        result = true;
+                        break;
                     }
                 }
-                if(result == true)
+                if (result == true)
                 {
                     break;
                 }
@@ -95,6 +79,13 @@ namespace LovelyMother.Services
             return result;
         }
 
+        /// <summary>
+        /// override : If NewProgram Exist
+        /// </summary>
+        /// <param name="before"></param>
+        /// <param name="now"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public bool IfNewProgramExist(ObservableCollection<RunningProcess> before, ObservableCollection<RunningProcess> now, List< String > filename)
         {
 
