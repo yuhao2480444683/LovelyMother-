@@ -31,16 +31,14 @@ namespace LovelyMother.ViewModels
         /// 提供给黑名单添加页面的服务 —— 三个数组
         /// </summary>
         
-        private ObservableCollection<RunningProcess> _processFirst;
+        private ObservableCollection<RunningProcess> _processFirst { get; set; }
 
-        private ObservableCollection<RunningProcess> _processSecond;
-
-        private ObservableCollection<RunningProcess> _processWanted;
+        private ObservableCollection<RunningProcess> _processSecond { get; set; }
 
         public ObservableCollection<RunningProcess> processWanted
         {
-            get => _processWanted;
-            set => Set(nameof(processWanted), ref _processWanted, value);
+            get;
+            private set;
         }
 
         private List<String> appName;
@@ -189,7 +187,7 @@ namespace LovelyMother.ViewModels
         public bool getNewListPage_ReadProcessNow()
         {
 
-            _processWanted.Clear();
+            processWanted.Clear();
 
             _processFirst = _processService.GetProcessNow();
             if(_processFirst.Count == 0)
@@ -206,10 +204,11 @@ namespace LovelyMother.ViewModels
         {
             _processSecond = _processService.GetProcessNow();
 
-            _processWanted = _processService.GetProcessDifferent(_processFirst,_processSecond);
+            processWanted = _processService.GetProcessDifferent(_processFirst,_processSecond);
 
             _processFirst.Clear();
             _processSecond.Clear();
+
 
             return true;
         }
@@ -281,7 +280,7 @@ namespace LovelyMother.ViewModels
         {
             _processFirst = new ObservableCollection<RunningProcess>();
             _processSecond = new ObservableCollection<RunningProcess>();
-            _processWanted = new ObservableCollection<RunningProcess>();
+            processWanted = new ObservableCollection<RunningProcess>();
         }
 
         public ProcessViewModel() : this(DesignMode.DesignModeEnabled ?

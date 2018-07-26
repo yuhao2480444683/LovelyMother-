@@ -10,16 +10,16 @@
 
     <Page.DataContext>
         <Binding Source="{StaticResource progressViewModel}"></Binding>
+        
     </Page.DataContext>
 
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
-
+            
             <ListView Name="ListProgress"
                       Grid.Column="0"
                       IsItemClickEnabled="True"
@@ -29,9 +29,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-
                             <TextBlock Text="{Binding fileName}" />
-
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -58,19 +56,10 @@
 
             <Grid Grid.Column="1">
                 <StackPanel>
-                    <CommandBar Background="Transparent"
-                        OverflowButtonVisibility="Collapsed"
-                        DefaultLabelPosition="Right"
-                        >
-                        <AppBarButton Name="Save"
-                              Icon="Save"
-                              Label="Save"
-                             
-                              />
-                    </CommandBar>
+                    
                     <TextBlock Text="ProgressName"
                            Style="{StaticResource CaptionTextBlockStyle}"
-                           Margin="12,0,0,4"/>
+                           Margin="12,12,0,4"/>
                     <TextBox Name="ProgressTestNameTextBox"
                          Text="{Binding ProgressName, Mode=TwoWay}"
                          Margin="12,0,0,4"/>

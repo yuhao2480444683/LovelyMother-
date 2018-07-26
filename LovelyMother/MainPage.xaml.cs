@@ -224,7 +224,11 @@ namespace LovelyMother
 
 
         
-
+        /// <summary>
+        /// 跳转。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddProgress_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Add));
@@ -234,7 +238,11 @@ namespace LovelyMother
         {
             Frame.Navigate(typeof(SignIn));
         }
-
+        /// <summary>
+        /// ListView传递参数。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void List_ItemClick(object sender, ItemClickEventArgs e)
         {
             var clickTask = e.ClickedItem as MotherLibrary.Task;

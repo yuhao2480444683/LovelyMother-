@@ -13,7 +13,7 @@ using MotherLibrary;
 
 namespace LovelyMother.ViewModels
 {
-    public class ProgressViewModel:ViewModelBase
+    public class ProgressViewModel : ViewModelBase
     {
 
         /// <summary>
@@ -23,8 +23,14 @@ namespace LovelyMother.ViewModels
         /// <summary>
         /// 进程服务
         /// </summary>
-       
-        public ProcessViewModel processModel;
+
+        private ProcessViewModel _processModel;
+
+        public ProcessViewModel processModel
+        {
+            get => _processModel;
+            set => Set(nameof(processModel), ref _processModel, value);
+        }
 
         public ObservableCollection<Progress> ProgressCollection
         {
@@ -79,10 +85,6 @@ namespace LovelyMother.ViewModels
                                                                  ProgressName,
                                                                  DefaultName);
                                                          }));
-
-
-
-
         /// <summary>
         /// 新添命令。
         /// </summary>
@@ -131,7 +133,6 @@ namespace LovelyMother.ViewModels
         public RelayCommand Progress3;
 
 
-
         /// <summary>
         /// 联系人服务。
         /// </summary>
@@ -149,9 +150,6 @@ namespace LovelyMother.ViewModels
         {
 
         }
-
-
-
     }
 
 
