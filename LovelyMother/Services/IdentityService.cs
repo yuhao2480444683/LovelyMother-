@@ -205,7 +205,33 @@ namespace UvpClient.Services
         }
 
 
+        /// <summary>
+        ///     保存。
+        /// </summary>
+        public void Save()
+        {
+            var passwordVault = new PasswordVault();
+            passwordVault.Add(new PasswordCredential(RefreshTokenResource,
+                DefaultUsername, _refreshToken));
+            passwordVault.Add(new PasswordCredential(AccessTokenResource,
+                DefaultUsername, _accessToken));
+        }
 
+
+
+
+        /// <summary>
+        ///     注销。
+        /// </summary>
+        public void SignOut()
+        {
+            _refreshToken = "empty";
+            _accessToken = "empty";
+            Save();
+
+            _rootNavigationService.Navigate(typeof(SignIn), null,
+                NavigationTransition.EntranceNavigationTransition);
+        }
 
 
 

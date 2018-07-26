@@ -81,11 +81,11 @@ namespace LovelyMother.Services
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 _rootNavigationService.Navigate(typeof(SignIn), null,
                     NavigationTransition.EntranceNavigationTransition);
-            /*todo 无需binding 若需要此处修改
+            
              else if (response.StatusCode == HttpStatusCode.Forbidden)
                 _rootNavigationService.Navigate(typeof(BindingPage), null,
                     NavigationTransition.EntranceNavigationTransition);
-            */
+            
             return response;
         }
 

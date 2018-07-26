@@ -20,9 +20,12 @@ namespace LovelyMother.ViewModels
         /// </summary>
         private ViewModelLocator()
         {
+            SimpleIoc.Default
+                .Register<IRootNavigationService, RootNavigationService>();
             SimpleIoc.Default.Register<IMotherService, MotherService>();
             SimpleIoc.Default.Register<IIdentityService, IdentityService>();
             SimpleIoc.Default.Register<IProcessService, ProcessService>();
+            SimpleIoc.Default.Register<IUserService, UserService>();
             SimpleIoc.Default.Register<ProcessViewModel>();
             SimpleIoc.Default.Register<ProgressViewModel>();
             SimpleIoc.Default.Register<TaskViewModel>();
@@ -46,6 +49,11 @@ namespace LovelyMother.ViewModels
         public TaskViewModel TaskViewModel =>
             SimpleIoc.Default.GetInstance<TaskViewModel>();
 
+        /// <summary>
+        ///     绑定ViewModel。
+        /// </summary>
+        public BindingViewModel BindingViewModel =>
+            SimpleIoc.Default.GetInstance<BindingViewModel>();
 
 
 
